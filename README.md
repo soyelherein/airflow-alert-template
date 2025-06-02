@@ -1,0 +1,1 @@
+📬 Standardizing Airflow Failure Alerts with Custom HTML Emails

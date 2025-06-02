@@ -1,0 +1,71 @@
+<html>
+  <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f7fa; margin: 0; padding: 20px;">
+    <div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 30px; border: 1px solid #e1e4e8;">
+      
+      <h2 style="color: #c53030; border-bottom: 2px solid #e53e3e; padding-bottom: 10px; margin-bottom: 25px;">
+        ❌ Airflow Task Failure Alert
+      </h2>
+      {% set log_url = task_instance.log_url %}
+      {% set airflow_base_url = log_url.split('/logs/')[0] %}
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <tbody>
+          <tr>
+            <td style="font-weight: 600; padding: 6px 0; color: #2d3748;">DAG:</td>
+            <td style="padding: 6px 0; color: #4a5568;">{{ dag.dag_id }}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600; padding: 6px 0; color: #2d3748;">Tags:</td>
+            <td style="padding: 6px 0; color: #4a5568;">{{ dag.tags | join(', ') if dag.tags else 'None' }}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600; padding: 6px 0; color: #2d3748;">Task:</td>
+            <td style="padding: 6px 0; color: #4a5568;">{{ task.task_id }}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600; padding: 6px 0; color: #2d3748;">Owner:</td>
+            <td style="padding: 6px 0; color: #4a5568;">{{ task.owner }}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600; padding: 6px 0; color: #2d3748;">Execution Date:</td>
+            <td style="padding: 6px 0; color: #4a5568;">{{ execution_date }}</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600; padding: 6px 0; color: #2d3748;">Attempt:</td>
+            <td style="padding: 6px 0; color: #4a5568;">{{ task_instance.try_number }} of {{ task.retries + 1 }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      {% if exception %}
+      <div style="background-color: #fed7d7; border: 1px solid #f56565; border-radius: 5px; padding: 15px; margin-bottom: 25px; color: #742a2a; font-family: monospace; white-space: pre-wrap;">
+        <strong>Error Message:</strong><br>
+        {{ exception }}
+      </div>
+      {% endif %}
+
+      <h3 style="color: #2b6cb0; margin-bottom: 12px;">🔍 Quick Actions</h3>
+      <ul style="color: #2d3748; padding-left: 20px; margin-top: 0; margin-bottom: 25px;">
+        <li><a href="{{ log_url }}" target="_blank">🔍 View Task Logs</a></li>
+        <li><a href="{{ airflow_base_url }}/dags/{{ task_instance.dag_id }}/grid" target="_blank">📊 DAG Grid View</a></li>
+        <li><a href="{{ airflow_base_url }}/dags/{{ task_instance.dag_id }}/graph?execution_date={{ execution_date | urlencode }}" target="_blank">🧭 DAG Graph View (This Run)</a></li>
+      </ul>
+
+      <h3 style="color: #3182ce; margin-bottom: 12px;">💡 Suggested Next Steps</h3>
+      <p style="color: #4a5568; line-height: 1.5; margin-top: 0; margin-bottom: 30px;">
+        {% if dag.params.get('recovery_tip') %}
+          {{ dag.params.recovery_tip }}
+        {% else %}
+          Review the logs and verify upstream dependencies. Retry if applicable or reach out to the owner.
+        {% endif %}
+      </p>
+
+      <hr style="border: none; border-top: 1px solid #e2e8f0; margin-bottom: 10px;">
+
+      <p style="font-size: 12px; color: #a0aec0; text-align: center; margin-top: 0;">
+        Airflow Host: {{ task_instance.hostname }}<br>
+        Alert generated at: {{ ts }}
+      </p>
+
+    </div>
+  </body>
+</html>
