@@ -9,27 +9,6 @@ from jinja2 import Template
 from random import random
 from utils.email_callback import failure_callback
 
-# EMAIL_TEMPLATE_PATH='/Users/rajia/project/airflow/airflow_home/dags/utils/email_body_template_callback.html'
-
-# @provide_session
-# def failure_callback(context, session=None):
-#     # Load your custom template HTML
-#     EMAIL_TEMPLATE_PATH='/Users/rajia/project/airflow/airflow_home/dags/utils/email_body_template_callback.html'
-#     with open(EMAIL_TEMPLATE_PATH) as f:
-#         template = Template(f.read())
-
-#     # Render the template with context + session
-#     html_content = template.render(**context, session=session)
-
-#     # Compose subject with context variables
-#     subject = f"🚨 [Airflow Alert] {context['dag'].dag_id} | Task '{context['task'].task_id}' FAILED ❌ | Exec: {context['execution_date']} | Try: {context['task_instance'].try_number}/{context['task'].retries + 1}"
-
-#     # Send email via Airflow's send_email util
-#     send_email(
-#         to=context['task'].email or ['your_email@example.com'], 
-#         subject=subject,
-#         html_content=html_content
-#     )
 
 default_args = {
     'owner': 'dev_team',
