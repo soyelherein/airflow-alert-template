@@ -1,14 +1,14 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
-from datetime import timedelta
+from datetime import datetime,timedelta
 
 default_args = {
     'owner': 'dev_team',
-    'email': [],  # Change to your email
+    'email': ["youremail@airflow.com"],  # Change to your email
     'email_on_failure': True,
-    'email_on_retry': False,
-    'retries': 0,
+    'email_on_retry': True,
+    'retries': 1,
     'retry_delay': timedelta(minutes=1),
 }
 
@@ -19,8 +19,8 @@ with DAG(
     'failure_test_dag',
     default_args=default_args,
     description='A DAG that fails to test email alerts',
-    schedule_interval=None,
-    start_date=days_ago(1),
+    schedule=None,
+    start_date=datetime(2025, 1, 1),
     catchup=False,
     tags=['test', 'alert'],
     params={
