@@ -2,10 +2,6 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 from datetime import datetime,timedelta
-
-from airflow.utils.email import send_email
-from airflow.utils.db import provide_session
-from jinja2 import Template
 from random import random
 from utils.email_callback import failure_callback
 
