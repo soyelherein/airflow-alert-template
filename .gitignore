@@ -198,3 +198,4 @@ standalone_admin_password.txt
 webserver_config.py
 airflow.db
 airflow-webserver.pid
+.DS_Store

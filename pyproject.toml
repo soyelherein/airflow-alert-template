@@ -1,0 +1,14 @@
+[project]
+name = "airflow"
+version = "0.1.0"
+description = "Airflow explorations"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "apache-airflow~=2.10",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
